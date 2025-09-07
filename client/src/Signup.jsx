@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const Signup = () => {
   const navigate = useNavigate(); 
 
@@ -11,6 +12,10 @@ const Signup = () => {
 
   const handlechanage = (e) => {
     e.preventDefault();
+    if(email,name,password===""){
+    alert("Please fill all the fields")
+    return;
+  }
 
     axios.post('http://localhost:3001/register', { name, email, password })
       .then(result => {
@@ -22,9 +27,10 @@ const Signup = () => {
       })
       .catch(err => console.log(err));
   }
+  
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-black">
       <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
 
