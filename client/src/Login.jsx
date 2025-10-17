@@ -1,20 +1,37 @@
 // Login.jsx
+import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const navigate = useNavigate(); 
+  const [email, setemail] =useState("");
+  const [password, setpassword] =useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login data:", form);
-    alert("Login functionality to be implemented");
+   if(email,password===""){
+    alert("Please fill all the fields")
+    return;
+   }
     
-  };
+    axios.post('http://localhost:3001/Login', { email, password })
+  .then(res => {
+    console.log(res.data);
+    
+    if (res.data.message === "Login Successful") {
+      navigate("/home");  
+    } else {
+      alert("Invalid Credentials");  
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Server error");
+  });
+}
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 to-purple-600">
@@ -29,8 +46,8 @@ const Login = () => {
               type="email"
               name="email"
               placeholder="Enter your email"
-              value={form.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
             />
@@ -41,8 +58,8 @@ const Login = () => {
               type="password"
               name="password"
               placeholder="Enter your password"
-              value={form.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setpassword(e.target.value)}
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
             />

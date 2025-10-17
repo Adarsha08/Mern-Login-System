@@ -15,6 +15,21 @@ app.post('/register',(req,res)=>
     .catch(err=>console.log(err));
     res.send("Data received");
 })
+app.post('/Login',(req,res)=>
+{
+    const {email,password}=req.body;
+    Employee.findOne({email:email,password:password})
+    .then(user=>{
+        if(user){
+            res.send({message:"Login Successful",user:user});
+        }
+        else{
+            res.send({message:"Invalid Credentials"});
+        }
+    })
+    .catch(err=>console.log(err));
+    
+})
 app.listen(3001,()=>{
     console.log("Server started on port 3001");
 });
